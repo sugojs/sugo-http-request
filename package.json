@@ -1,0 +1,27 @@
+{
+  "name": "@sugo/http-request",
+  "scripts": {
+    "start": "node server.js",
+    "test": "set NODE_ENV=test&& mocha"
+  },
+  "version": "1.1.1",
+  "author": {
+    "name": "Francisco Javier Sucre González",
+    "email": "franciscojsucreg@gmail.com",
+    "url": "https://github.com/franciscosucre"
+  },
+  "dependencies": {},
+  "description": "",
+  "license": "ISC",
+  "main": "index.js",
+  "keywords": [
+    "server",
+    "http",
+    "request"
+  ],
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^5.2.0"
+  }
+}
