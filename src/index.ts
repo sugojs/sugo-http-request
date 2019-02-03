@@ -2,19 +2,19 @@ import * as assert from 'assert';
 import * as http from 'http';
 import * as https from 'https';
 
-export interface HttpResponse {
+export interface IHttpResponse {
   status: number;
   message: string;
   data: any;
 }
 
 export class HttpClient {
-  public request(url: string, data: any, options = {}): Promise<HttpResponse> {
+  public request(url: string, data: any, options = {}): Promise<IHttpResponse> {
     assert(data === null || data === undefined || typeof data === 'object', 'Data parameter must be null or an object');
     return new Promise((resolve, reject) => {
       const lib = url.startsWith('https://') ? https : http;
       const req = lib.request(url, options, (res: http.IncomingMessage) => {
-        const body: HttpResponse = {
+        const body: IHttpResponse = {
           status: res.statusCode as number,
           message: http.STATUS_CODES[res.statusCode as number] || '',
           data: null,
