@@ -15,16 +15,16 @@ export class HttpClient {
       const lib = url.startsWith('https://') ? https : http;
       const req = lib.request(url, options, (res: http.IncomingMessage) => {
         const body: IHttpResponse = {
-          status: res.statusCode as number,
-          message: http.STATUS_CODES[res.statusCode as number] || '',
           data: null,
+          message: http.STATUS_CODES[res.statusCode as number] || '',
+          status: res.statusCode as number,
         };
 
         let rawBody = Buffer.from('');
-        res.on('data', function(chunk) {
+        res.on('data', (chunk: any) => {
           rawBody = Buffer.concat([rawBody, chunk]);
         });
-        res.on('end', function() {
+        res.on('end', () => {
           try {
             body.data = JSON.parse(rawBody.toString());
           } catch (e) {
@@ -37,7 +37,7 @@ export class HttpClient {
           }
         });
       });
-      req.on('error', function(err) {
+      req.on('error', (err: Error) => {
         reject(err);
       });
       if (data) {
