@@ -1,16 +1,22 @@
-const VALID_URL = "/foo/fighters";
-const STRING_ERROR_URL = "/string/error";
-const OBJECT_ERROR_URL = "/object/error";
-const CUSTOM_ERROR_NAME = "CustomError";
-const http = require("http");
-const querystring = require("querystring");
+import * as http from 'http'
+import * as querystring from 'querystring'
 
-exports.VALID_URL = VALID_URL;
-exports.STRING_ERROR_URL = STRING_ERROR_URL;
-exports.OBJECT_ERROR_URL = OBJECT_ERROR_URL;
-exports.CUSTOM_ERROR_NAME = CUSTOM_ERROR_NAME;
+export const VALID_URL = "/foo/fighters";
+export const STRING_ERROR_URL = "/string/error";
+export const OBJECT_ERROR_URL = "/object/error";
+export const CUSTOM_ERROR_NAME = "CustomError";
 
-exports.server = http.createServer((req, res) => {
+interface Request extends http.IncomingMessage {
+  path?: string;
+  query?: querystring.ParsedUrlQuery;
+  body?: any;
+}
+
+interface Response extends http.ServerResponse {
+  
+}
+
+export const server = http.createServer((req: Request, res: Response) => {
   const url = req.url || "";
   const [path, reqQuerystring] = url.split("?");
   req.path = path;
