@@ -1,5 +1,10 @@
 {
   "name": "@sugo/http-request",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register src/test/*.test.ts",
@@ -20,7 +25,6 @@
   "dependencies": {},
   "description": "",
   "license": "ISC",
-  "main": "index.js",
   "keywords": [
     "server",
     "http",
