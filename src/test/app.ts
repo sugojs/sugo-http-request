@@ -1,5 +1,6 @@
 import * as http from 'http';
 import * as querystring from 'querystring';
+import * as url from 'url';
 
 export const VALID_URL = '/foo/fighters';
 export const STRING_ERROR_URL = '/string/error';
@@ -12,11 +13,16 @@ interface IRequest extends http.IncomingMessage {
   body?: any;
 }
 
-export const server = http.createServer((req: IRequest, res: http.ServerResponse) => {
-  const url = req.url || '';
-  const [path, reqQuerystring] = url.split('?');
-  req.path = path;
-  req.query = querystring.parse(reqQuerystring);
+interface IResponse extends http.ServerResponse {
+  path?: string;
+  query?: querystring.ParsedUrlQuery;
+  body?: any;
+}
+
+export const server = http.createServer((req: IRequest, res: IResponse) => {
+  const { pathname, query } = url.parse(req.url || '', true);
+  req.path = pathname;
+  req.query = query;
   let body = new Buffer('');
   req
     .on('data', data => {

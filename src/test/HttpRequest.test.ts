@@ -3,7 +3,7 @@ import * as chai from 'chai';
 import * as querystring from 'querystring';
 import httpRequests from '../index';
 import { CUSTOM_ERROR_NAME, OBJECT_ERROR_URL, server, STRING_ERROR_URL, VALID_URL } from './app';
-const PORT = 8080;
+const PORT = 25000;
 const HOST = 'http://localhost';
 const QUERYSTRING = 'awesome=true';
 const PARSED_QUERYSTRING = querystring.parse(QUERYSTRING);
@@ -20,7 +20,6 @@ const PATCH = 'PATCH';
 const POST = 'POST';
 const PUT = 'PUT';
 const TRACE = 'TRACE';
-const HEAD = 'HEAD';
 
 chai.should();
 
