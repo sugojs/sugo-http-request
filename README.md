@@ -38,17 +38,17 @@ Some methods can be passed a **data** parameter, this corresponds to the request
 
 ## **Example - Promise**
 
-```javascript
-const http = require("http-request-promise-simple");
-return http
-  .get("http://localhost:8080/foo/bar")
+```typescript
+import httpClient = require('@sugo/http-request');
+return httpClient
+  .get('http://localhost:8080/foo/bar')
   .then(res => console.info(res.status))
   .catch(error => console.error(error));
 ```
 
 ## **Example - Async/Await**
 
-```javascript
-const http = require("http-request-promise-simple");
-const res = await http.get("http://localhost:8080/foo/bar");
+```typescript
+import httpClient = require('@sugo/http-request');
+const res = await httpClient.get('http://localhost:8080/foo/bar');
 ```
