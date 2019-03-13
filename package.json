@@ -16,7 +16,7 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "version": "2.4.2",
+  "version": "2.4.3",
   "author": {
     "name": "Francisco Javier Sucre González",
     "email": "franciscojsucreg@gmail.com",
