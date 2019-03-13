@@ -23,10 +23,10 @@ export const server = http.createServer((req: IRequest, res: IResponse) => {
   const { pathname, query } = url.parse(req.url || '', true);
   req.path = pathname;
   req.query = query;
-  let body = new Buffer('');
+  let body = Buffer.from('');
   req
     .on('data', data => {
-      const auxBuffer: any = new Buffer(data, 'utf8');
+      const auxBuffer: any = Buffer.from(data, 'utf8');
       body = Buffer.concat([body, auxBuffer]);
     })
     .on('end', () => {

@@ -1,7 +1,7 @@
 import { AssertionError } from 'assert';
 import * as chai from 'chai';
 import * as querystring from 'querystring';
-import httpRequests from '../index';
+import { httpClient } from '..';
 import { CUSTOM_ERROR_NAME, OBJECT_ERROR_URL, server, STRING_ERROR_URL, VALID_URL } from './app';
 const PORT = 25000;
 const HOST = 'http://localhost';
@@ -37,7 +37,7 @@ describe('Http request promise simple', () => {
     it('should throw an error if passed a data parameter that is not an object', async () => {
       let res;
       try {
-        res = await httpRequests.request(`${HOST}:${PORT}${NOT_FOUND_URL}?${QUERYSTRING}`, 'dfssdf');
+        res = await httpClient.request(`${HOST}:${PORT}${NOT_FOUND_URL}?${QUERYSTRING}`, 'dfssdf');
       } catch (error) {
         res = error;
       }
@@ -47,7 +47,7 @@ describe('Http request promise simple', () => {
     it('it should handle 404 errors', async () => {
       let res;
       try {
-        res = await httpRequests.get(`${HOST}:${PORT}${NOT_FOUND_URL}?${QUERYSTRING}`);
+        res = await httpClient.get(`${HOST}:${PORT}${NOT_FOUND_URL}?${QUERYSTRING}`);
       } catch (error) {
         res = error;
       }
@@ -58,7 +58,7 @@ describe('Http request promise simple', () => {
     it('it should handle custom errors passed as strings', async () => {
       let res;
       try {
-        res = await httpRequests.get(`${HOST}:${PORT}${STRING_ERROR_URL}?${QUERYSTRING}`);
+        res = await httpClient.get(`${HOST}:${PORT}${STRING_ERROR_URL}?${QUERYSTRING}`);
       } catch (error) {
         res = error;
       }
@@ -68,7 +68,7 @@ describe('Http request promise simple', () => {
     it('it should handle custom errors passed as objects', async () => {
       let res;
       try {
-        res = await httpRequests.get(`${HOST}:${PORT}${OBJECT_ERROR_URL}?${QUERYSTRING}`);
+        res = await httpClient.get(`${HOST}:${PORT}${OBJECT_ERROR_URL}?${QUERYSTRING}`);
       } catch (error) {
         res = error;
       }
@@ -80,7 +80,7 @@ describe('Http request promise simple', () => {
 
   describe(`GET Requests`, () => {
     it('it should make a GET request successfully', async () => {
-      const res = await httpRequests.get(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
+      const res = await httpClient.get(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -92,7 +92,7 @@ describe('Http request promise simple', () => {
 
   describe(`HEAD Requests`, () => {
     it('it should make a HEAD request successfully', async () => {
-      const res = await httpRequests.head(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
+      const res = await httpClient.head(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
       res.should.be.an.instanceof(Object);
       res.status.should.be.eql(200);
     });
@@ -100,7 +100,7 @@ describe('Http request promise simple', () => {
 
   describe(`OPTIONS Requests`, () => {
     it('it should make a OPTIONS request successfully', async () => {
-      const res = await httpRequests.options(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
+      const res = await httpClient.options(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -112,7 +112,7 @@ describe('Http request promise simple', () => {
 
   describe(`TRACE Requests`, () => {
     it('it should make a TRACE request successfully', async () => {
-      const res = await httpRequests.trace(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
+      const res = await httpClient.trace(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -124,7 +124,7 @@ describe('Http request promise simple', () => {
 
   describe(`Data parsing for Requests`, () => {
     it('it should make a POST request successfully with data being an object', async () => {
-      const res = await httpRequests.post(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
+      const res = await httpClient.post(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -138,7 +138,7 @@ describe('Http request promise simple', () => {
 
   describe(`POST Requests`, () => {
     it('it should make a POST request successfully', async () => {
-      const res = await httpRequests.post(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
+      const res = await httpClient.post(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -152,7 +152,7 @@ describe('Http request promise simple', () => {
 
   describe(`PATCH Requests`, () => {
     it('it should make a PATCH request successfully', async () => {
-      const res = await httpRequests.patch(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
+      const res = await httpClient.patch(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -166,7 +166,7 @@ describe('Http request promise simple', () => {
 
   describe(`PUT Requests`, () => {
     it('it should make a PUT request successfully', async () => {
-      const res = await httpRequests.put(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
+      const res = await httpClient.put(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`, BODY);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
@@ -180,7 +180,7 @@ describe('Http request promise simple', () => {
 
   describe(`DELETE Requests`, () => {
     it('it should make a DELETE request successfully', async () => {
-      const res = await httpRequests.delete(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
+      const res = await httpClient.delete(`${HOST}:${PORT}${VALID_URL}?${QUERYSTRING}`);
       res.status.should.be.eql(200);
       res.should.be.an.instanceof(Object);
       res.data.reqPath.should.be.eql(VALID_URL);
