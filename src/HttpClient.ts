@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import * as http from 'http';
 import * as https from 'https';
+import { parse } from 'url';
 
 export interface IHttpResponse {
   status: number;
@@ -10,33 +11,47 @@ export interface IHttpResponse {
 
 export class HttpClient {
   public request(url: string, data: any = {}, options: http.RequestOptions = {}): Promise<IHttpResponse> {
+    const { auth, host, hostname, path, protocol, port } = parse(url);
     assert(data === null || data === undefined || typeof data === 'object', 'Data parameter must be null or an object');
     return new Promise((resolve, reject) => {
       const lib = url.startsWith('https://') ? https : http;
-      const req = lib.request(url, options, (res: http.IncomingMessage) => {
-        const body: IHttpResponse = {
-          data: null,
-          message: http.STATUS_CODES[res.statusCode as number] || '',
-          status: res.statusCode as number,
-        };
+      const req = lib.request(
+        Object.assign(
+          {
+            auth,
+            host,
+            hostname,
+            path,
+            port,
+            protocol,
+          },
+          options,
+        ),
+        (res: http.IncomingMessage) => {
+          const body: IHttpResponse = {
+            data: null,
+            message: http.STATUS_CODES[res.statusCode as number] || '',
+            status: res.statusCode as number,
+          };
 
-        let rawBody = Buffer.from('');
-        res.on('data', (chunk: any) => {
-          rawBody = Buffer.concat([rawBody, chunk]);
-        });
-        res.on('end', () => {
-          try {
-            body.data = JSON.parse(rawBody.toString());
-          } catch (e) {
-            body.data = rawBody.toString();
-          }
-          if ((res.statusCode as number) < 200 || (res.statusCode as number) >= 300) {
-            reject(body);
-          } else {
-            resolve(body);
-          }
-        });
-      });
+          let rawBody = Buffer.from('');
+          res.on('data', (chunk: any) => {
+            rawBody = Buffer.concat([rawBody, chunk]);
+          });
+          res.on('end', () => {
+            try {
+              body.data = JSON.parse(rawBody.toString());
+            } catch (e) {
+              body.data = rawBody.toString();
+            }
+            if ((res.statusCode as number) < 200 || (res.statusCode as number) >= 300) {
+              reject(body);
+            } else {
+              resolve(body);
+            }
+          });
+        },
+      );
       req.on('error', (err: Error) => {
         reject(err);
       });
