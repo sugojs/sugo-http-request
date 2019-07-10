@@ -55,6 +55,9 @@ export class HttpClient {
       req.on('error', (err: Error) => {
         reject(err);
       });
+      req.on('timeout', () => {
+        req.abort();
+      });
       if (data) {
         req.write(typeof data === 'string' ? data : JSON.stringify(data));
       }
